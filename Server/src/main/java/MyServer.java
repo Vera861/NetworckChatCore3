@@ -35,9 +35,11 @@ public class MyServer {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            LOGGER.error("Ошибка подключения");
         } finally {
             if (authService != null) {
                 authService.stop();
+                LOGGER.info("Сервис авторизации остановился");
             }
         }
     }
@@ -63,10 +65,12 @@ public class MyServer {
             if (client.getName().equals(nickTo)) {
                 client.sendMsg("от пользователя " + fromClient.getName() + ": " + msg);
                 fromClient.sendMsg("клиенту " + nickTo + ": " + msg);
+                LOGGER.info("сообщение от " + fromClient.getName() + " " + nickTo + ": " + msg);
                 return;
             }
         }
         fromClient.sendMsg("Участник с ником \"" + nickTo + "\" не найден");
+        LOGGER.info("Ошибка отправки сообщения " + ": Участник с ником \"" + nickTo + "\"не найден!!!\"");
     }
 
     public synchronized void broadcastClientList() {
